@@ -4,6 +4,13 @@ import xml.etree.ElementTree as ET
 import csv
 import hashlib
 from urllib.parse import urlparse, urlunparse
+import os
+from datetime import datetime
+
+def ip_sanitized(input_ip):
+    re.search(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\[.]){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)',input_ip)  # (example: 1[.]1[.]1[.]1)
+    # sanitized.append(re.search(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\|\.\|){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', input_ip)) # (example: 1|.|1|.|1|.|1)
+    # return sanitized
 
 class IndicatorParser:
     def __init__(self):
@@ -59,6 +66,21 @@ class IndicatorParser:
     def _normalize_email(self, email):
         return email.lower()
 
+    def ip_sanitized(self, input_ip):
+        re.search(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\[.]){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', input_ip) # (example: 1[.]1[.]1[.]1)
+        #sanitized.append(re.search(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\|\.\|){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', input_ip)) # (example: 1|.|1|.|1|.|1)
+        #return sanitized
+
+    def search_regex_in_csv(csv_file, regex_pattern):
+        results = []
+        with open(csv_file, 'r', newline='') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                for cell in row:
+                    sanitized = ip_sanitized(cell)
+                    results.append(sanitized)
+        return results
+
     def export_string(self):
         result = []
         for indicator_type, indicators in self.indicators.items():
@@ -79,12 +101,16 @@ class IndicatorParser:
         return ET.tostring(root, encoding='unicode', method='xml')
 
     def export_csv(self, filename):
+        current_date = datetime.now().strftime("%d%m%Y")
+        filename = f"{current_date}-Normalized_Indicators.csv"
         with open(filename, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(['Type', 'Value'])
             for indicator_type, indicators in self.indicators.items():
                 for indicator in indicators:
                     writer.writerow([indicator_type, indicator])
+
+
 
 # Parse Usage
 parser = IndicatorParser()
@@ -97,7 +123,9 @@ user@example.com
 """
 
 parser.parse(input_text)
+parser.search_regex_in_csv("IOCs- FC309242855$08092024_13_34_16.csv")
 
+"""
 print("String Export:")
 print(parser.export_string())
 
@@ -109,5 +137,4 @@ print(parser.export_xml())
 
 parser.export_csv('indicators.csv')
 print("\nCSV file 'indicators.csv' has been created.")
-
-print("test")
+"""
