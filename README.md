@@ -74,7 +74,47 @@ The database will be created automatically on first run.
 
 ## 🖥️ Usage
 
-### Running the GUI Application
+### Recommended: Interactive Launcher
+
+Start from a single menu that lets you run GUI, API, or Both. The launcher automatically prefers the local virtual environment at `.venv`.
+
+PowerShell (Windows):
+```powershell
+cd E:\Code\PIoC
+.\.venv\Scripts\Activate.ps1     # activate the local venv
+python start.py                    # open interactive menu
+```
+
+When prompted, choose:
+- `1` → GUI only
+- `2` → API only
+- `3` → Both (GUI + API)
+
+Non‑interactive equivalents:
+```powershell
+# GUI only
+python launcher.py gui --gui-port 8501
+
+# API only
+python launcher.py api --api-port 8000
+
+# Both
+python launcher.py both --gui-port 8501 --api-port 8000
+
+# Development (disable GUI auth)
+python launcher.py gui --no-auth
+python launcher.py both --no-auth
+```
+
+Notes:
+- If your console has Unicode/emoji encoding issues, run with UTF‑8:
+  ```powershell
+  python -X utf8 launcher.py both
+  ```
+- Do not run `streamlit run launcher.py` (the launcher is not a Streamlit app).
+- Do not run `streamlit run api_server.py` (that file is a FastAPI app, not Streamlit).
+
+### Running the GUI Application (manual)
 
 Start the Streamlit GUI interface:
 ```bash
@@ -92,7 +132,7 @@ The GUI will be available at: http://localhost:8501
 - **Audit Logs**: View system activity and user actions
 - **Settings**: System configuration and maintenance tools
 
-### Running the API Server
+### Running the API Server (manual)
 
 Start the FastAPI backend server:
 ```bash
@@ -338,24 +378,30 @@ For issues and questions:
 
 ## 🎯 Quick Start Example
 
-1. **Start the GUI:**
-```bash
-streamlit run gui_app.py
+1. **Start via interactive launcher (recommended):**
+```powershell
+.\.venv\Scripts\Activate.ps1
+python start.py    # choose GUI, API, or Both
 ```
 
-2. **Upload the sample file:**
+2. **Alternatively, start both services directly:**
+```powershell
+python launcher.py both --gui-port 8501 --api-port 8000
+```
+
+3. **Upload the sample file:**
    - Go to "File Upload" in the GUI
    - Upload `sample_iocs.csv`
    - Enable health checks
    - Click "Process Files"
 
-3. **View results:**
+4. **View results:**
    - Check the Dashboard for statistics
    - Browse indicators in "Indicator Management"
    - Monitor health checks in "Health Checks"
    - View processing logs in "Audit Logs"
 
-4. **Use the API:**
+5. **Use the API:**
 ```bash
 # Get indicators
 curl -H "Authorization: Bearer demo-token" \
@@ -367,3 +413,25 @@ curl -H "Authorization: Bearer demo-token" \
 ```
 
 The platform is now ready for cyber threat intelligence operations! 🛡️
+
+---
+
+## 🔧 Troubleshooting (Environment)
+
+### "python-multipart" required for file uploads
+- Symptom: FastAPI error mentioning `python-multipart` when hitting `/api/v1/indicators/upload`.
+- Fix: Ensure you’re using the local virtual environment and it has the package installed.
+  ```powershell
+  .\.venv\Scripts\Activate.ps1
+  python -c "import sys; print(sys.executable)"   # should print .venv path
+  python -m pip show python-multipart             # should be installed
+  ```
+
+### UnicodeEncodeError on Windows console
+- Symptom: `UnicodeEncodeError` for emoji characters when running the launcher.
+- Fix: run with UTF‑8 or use the interactive menu:
+  ```powershell
+  python -X utf8 launcher.py both
+  # or
+  python start.py
+  ```
