@@ -106,13 +106,20 @@ python launcher.py gui --no-auth
 python launcher.py both --no-auth
 ```
 
+### API Documentation
+
+The built-in OpenAPI docs are automatically available when the API server starts:
+
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
 Notes:
 - If your console has Unicode/emoji encoding issues, run with UTF‑8:
   ```powershell
   python -X utf8 launcher.py both
   ```
-- Do not run `streamlit run launcher.py` (the launcher is not a Streamlit app).
-- Do not run `streamlit run api_server.py` (that file is a FastAPI app, not Streamlit).
+-- Do not run `streamlit run launcher.py` (the launcher is not a Streamlit app).
+-- Do not run `streamlit run api_server.py` (that file is a FastAPI app, not Streamlit).
 
 ### Running the GUI Application (manual)
 
@@ -140,7 +147,7 @@ python api_server.py
 ```
 
 The API will be available at: http://localhost:8000
-API documentation: http://localhost:8000/docs (in debug mode)
+API documentation: http://localhost:8000/docs
 
 #### API Endpoints:
 
@@ -151,6 +158,8 @@ API documentation: http://localhost:8000/docs (in debug mode)
 - `GET /api/v1/indicators` - List indicators with filtering
 - `GET /api/v1/indicators/{id}` - Get specific indicator
 - `POST /api/v1/indicators` - Create new indicator
+- `POST /api/v1/indicators/exists` - Check if indicator exists (type inferred)
+- `POST /api/v1/indicators/bulk` - Bulk insert/upsert indicators
 - `DELETE /api/v1/indicators/{id}` - Delete indicator
 - `POST /api/v1/indicators/upload` - Upload file for processing
 
