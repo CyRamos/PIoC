@@ -1,0 +1,13 @@
+indicator_type,value,confidence,source
+ip,192.168.1.100,high,malware_sample_1
+ip,10.0.0.1,medium,network_scan
+domain,malicious-example[.]com,high,phishing_campaign
+domain,google.com,low,benign_check
+url,hxxp://evil-site[.]com/malware.exe,critical,malware_distribution
+url,https://github.com,low,benign_check
+hash,d41d8cd98f00b204e9800998ecf8427e,medium,file_analysis
+hash,5d41402abc4b2a76b9719d911017c592,high,malware_hash
+email,admin@evil-domain[.]com,high,phishing_attempt
+email,test@gmail.com,low,test_data
+domain,facebook.com,low,social_media
+ip,8.8.8.8,low,dns_server 

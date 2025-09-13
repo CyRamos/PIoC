@@ -1,0 +1,10 @@
+indicator_type,value,confidence,source
+ip,192.168.1.100,high,repeat_analysis
+domain,google.com,low,duplicate_check
+domain,new-malicious-site[.]org,critical,new_threat
+url,hxxps://brand-new-threat[.]net/payload,critical,latest_campaign
+hash,d41d8cd98f00b204e9800998ecf8427e,medium,file_recheck
+ip,203.0.113.5,medium,new_suspicious_ip
+email,admin@evil-domain[.]com,high,ongoing_phishing
+ip,192.168.1.100,high,duplicate_in_file
+domain,totally-new-domain[.]xyz,high,emerging_threat 
