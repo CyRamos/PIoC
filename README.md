@@ -172,6 +172,30 @@ API documentation: http://localhost:8000/docs
 - `GET /api/v1/audit-logs` - Audit logs
 - `POST /api/v1/system/cleanup` - Clean old data (admin only)
 
+#### PowerShell API Examples:
+
+**Note:** The Swagger UI at `/docs` generates Unix-style curl commands. For Windows PowerShell, use these examples:
+
+```powershell
+# List indicators
+curl -Uri 'http://localhost:8000/api/v1/indicators' -Headers @{'Authorization'='Bearer demo-token'}
+
+# Check if indicator exists
+curl -Uri 'http://localhost:8000/api/v1/indicators/exists' -Method POST -Headers @{'Authorization'='Bearer demo-token'; 'Content-Type'='application/json'} -Body '{"value":"192.168.1.1"}'
+
+# Add single indicator
+curl -Uri 'http://localhost:8000/api/v1/indicators' -Method POST -Headers @{'Authorization'='Bearer demo-token'; 'Content-Type'='application/json'} -Body '{"value":"malware.com","confidence_score":80,"tlp_level":"RED"}'
+
+# Bulk insert indicators
+curl -Uri 'http://localhost:8000/api/v1/indicators/bulk' -Method POST -Headers @{'Authorization'='Bearer demo-token'; 'Content-Type'='application/json'} -Body '{"items":[{"value":"192.168.1.1","confidence_score":80},{"value":"malware.com","tlp_level":"RED"}],"source_name":"api_test"}'
+
+# Get statistics
+curl -Uri 'http://localhost:8000/api/v1/statistics' -Headers @{'Authorization'='Bearer demo-token'}
+
+# Health check (no auth needed)
+curl -Uri 'http://localhost:8000/health'
+```
+
 ### Using the Legacy CLI
 
 Process files using the original `main.py`:
@@ -411,6 +435,17 @@ python launcher.py both --gui-port 8501 --api-port 8000
    - View processing logs in "Audit Logs"
 
 5. **Use the API:**
+
+**PowerShell:**
+```powershell
+# Get indicators
+curl -Uri 'http://localhost:8000/api/v1/indicators' -Headers @{'Authorization'='Bearer demo-token'}
+
+# Get statistics
+curl -Uri 'http://localhost:8000/api/v1/statistics' -Headers @{'Authorization'='Bearer demo-token'}
+```
+
+**Unix/Linux/Mac:**
 ```bash
 # Get indicators
 curl -H "Authorization: Bearer demo-token" \
