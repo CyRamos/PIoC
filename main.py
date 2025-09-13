@@ -71,7 +71,7 @@ class IndicatorParser:
         #sanitized.append(re.search(r'((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\|\.\|){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', input_ip)) # (example: 1|.|1|.|1|.|1)
         #return sanitized
 
-    def search_regex_in_csv(csv_file, regex_pattern):
+    def search_regex_in_csv(self, csv_file, regex_pattern=None):
         results = []
         with open(csv_file, 'r', newline='') as file:
             reader = csv.reader(file)
