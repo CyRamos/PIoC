@@ -17,9 +17,12 @@ from urllib.parse import urlparse, urlunparse
 import pandas as pd
 from datetime import datetime
 
-from config import security_config, NORMALIZATION_PATTERNS, INDICATOR_TYPES
-from models import SessionLocal, Indicator, IndicatorCreate
-from utils import SecurityValidator, AuditLogger
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import security_config, NORMALIZATION_PATTERNS, INDICATOR_TYPES
+from src.pioc.models import SessionLocal, Indicator, IndicatorCreate
+from src.pioc.utils import SecurityValidator, AuditLogger
 
 # Configure logging
 logging.basicConfig(

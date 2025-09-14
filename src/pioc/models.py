@@ -15,7 +15,11 @@ from pydantic import BaseModel, Field, validator
 import hashlib
 import json
 
-from config import db_config
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import db_config
 
 Base = declarative_base()
 

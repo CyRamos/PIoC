@@ -21,8 +21,11 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import base64
 import secrets
 
-from config import security_config
-from models import SessionLocal, AuditLog
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import security_config
+from src.pioc.models import SessionLocal, AuditLog
 
 logger = logging.getLogger(__name__)
 

@@ -12,8 +12,12 @@ from datetime import datetime, timedelta
 from typing import Optional, Dict, Any, List
 import logging
 
-from config import auth_config, security_config
-from utils import audit_logger
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import auth_config, security_config
+from src.pioc.utils import audit_logger
 
 logger = logging.getLogger(__name__)
 

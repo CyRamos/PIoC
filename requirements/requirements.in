@@ -1,0 +1,35 @@
+# Core FastAPI Dependencies
+fastapi>=0.100.0,<0.110.0
+uvicorn[standard]>=0.20.0,<0.30.0
+python-multipart>=0.0.6
+
+# Streamlit GUI
+streamlit>=1.25.0,<2.0.0
+
+# Data Processing
+pandas>=2.0.0,<3.0.0
+plotly>=5.15.0,<6.0.0
+
+# Database
+sqlalchemy>=2.0.0,<2.1.0
+pydantic>=2.0.0,<3.0.0
+
+# Security & Crypto
+cryptography>=41.0.0
+bcrypt>=4.0.0
+
+# Network & HTTP
+requests>=2.30.0,<3.0.0
+aiohttp>=3.8.0,<4.0.0
+dnspython>=2.4.0
+
+# Validation & Utils
+validators>=0.20.0
+python-dotenv>=1.0.0
+
+# CLI & Presentation
+rich>=13.0.0
+typer>=0.9.0
+
+# File Handling
+aiofiles>=23.0.0

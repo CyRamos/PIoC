@@ -18,12 +18,15 @@ import time
 from sqlalchemy import text
 
 # Import our CTI modules
-from config import app_config, security_config, INDICATOR_TYPES, db_config, auth_config
-from models import SessionLocal, Indicator, HealthCheck, AuditLog
-from indicator_processor import IndicatorProcessor
-from health_checker import HealthCheckManager
-from utils import security_validator, audit_logger, data_retention_manager, ConfigValidator
-from auth import auth_manager
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import app_config, security_config, INDICATOR_TYPES, db_config, auth_config
+from src.pioc.models import SessionLocal, Indicator, HealthCheck, AuditLog
+from src.pioc.indicator_processor import IndicatorProcessor
+from src.pioc.health_checker import HealthCheckManager
+from src.pioc.utils import security_validator, audit_logger, data_retention_manager, ConfigValidator
+from src.pioc.auth import auth_manager
 
 # Configure page
 st.set_page_config(

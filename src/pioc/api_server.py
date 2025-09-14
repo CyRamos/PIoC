@@ -20,14 +20,17 @@ import json
 import time
 
 # Import our CTI modules
-from config import app_config, security_config, INDICATOR_TYPES
-from models import (
+import sys
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import app_config, security_config, INDICATOR_TYPES
+from src.pioc.models import (
     SessionLocal, Indicator, HealthCheck, AuditLog,
     IndicatorCreate, IndicatorResponse, HealthCheckResponse
 )
-from indicator_processor import IndicatorProcessor
-from health_checker import HealthCheckManager
-from utils import security_validator, audit_logger, RateLimiter
+from src.pioc.indicator_processor import IndicatorProcessor
+from src.pioc.health_checker import HealthCheckManager
+from src.pioc.utils import security_validator, audit_logger, RateLimiter
 
 # Configure logging
 logging.basicConfig(

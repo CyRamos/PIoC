@@ -71,7 +71,7 @@ def check_dependencies():
 
     if missing_packages:
         print(f"❌ Missing packages: {', '.join(missing_packages)}")
-        print("📦 Install with: pip install -r requirements-flexible.txt")
+        print("📦 Install with: pip install -r requirements/requirements.txt")
         return False
     
     print("✅ All dependencies are installed")
@@ -110,7 +110,7 @@ def launch_gui(port: int = 8501, disable_auth: bool = False):
     try:
         py_exec = get_python_executable()
         cmd = [
-            py_exec, "-m", "streamlit", "run", "gui_app.py",
+            py_exec, "-m", "streamlit", "run", "src/pioc/gui_app.py",
             "--server.port", str(port),
             "--server.headless", "true",
             "--browser.gatherUsageStats", "false"
@@ -136,7 +136,7 @@ def launch_api(port: int = 8000):
     try:
         py_exec = get_python_executable()
         cmd = [
-            py_exec, "-m", "uvicorn", "api_server:app",
+            py_exec, "-m", "uvicorn", "src.pioc.api_server:app",
             "--host", "0.0.0.0",
             "--port", str(port),
             "--reload"
@@ -165,7 +165,7 @@ def launch_both(gui_port: int = 8501, api_port: int = 8000, disable_auth: bool =
         def run_gui():
             py_exec = get_python_executable()
             cmd = [
-                py_exec, "-m", "streamlit", "run", "gui_app.py",
+                py_exec, "-m", "streamlit", "run", "src/pioc/gui_app.py",
                 "--server.port", str(gui_port),
                 "--server.headless", "true",
                 "--browser.gatherUsageStats", "false"
@@ -175,7 +175,7 @@ def launch_both(gui_port: int = 8501, api_port: int = 8000, disable_auth: bool =
         def run_api():
             py_exec = get_python_executable()
             cmd = [
-                py_exec, "-m", "uvicorn", "api_server:app",
+                py_exec, "-m", "uvicorn", "src.pioc.api_server:app",
                 "--host", "0.0.0.0",
                 "--port", str(api_port),
                 "--reload"
@@ -259,7 +259,7 @@ def show_status():
         print(f"❌ Configuration: Error - {str(e)}")
     
     # Check file structure
-    required_files = ['gui_app.py', 'api_server.py', 'config.py', 'models.py']
+    required_files = ['src/pioc/gui_app.py', 'src/pioc/api_server.py', 'core/config.py', 'src/pioc/models.py']
     for file in required_files:
         if Path(file).exists():
             print(f"✅ {file}: Found")

@@ -15,9 +15,13 @@ import dns.resolver
 import ipaddress
 from dataclasses import dataclass
 
-from config import security_config, HEALTH_CHECK_ENDPOINTS
-from models import SessionLocal, Indicator, HealthCheck
-from utils import RateLimiter, SecurityValidator
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+from core.config import security_config, HEALTH_CHECK_ENDPOINTS
+from src.pioc.models import SessionLocal, Indicator, HealthCheck
+from src.pioc.utils import RateLimiter, SecurityValidator
 
 logger = logging.getLogger(__name__)
 
