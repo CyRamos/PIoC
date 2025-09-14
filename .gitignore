@@ -70,3 +70,4 @@ Thumbs.db
 # Development
 code_explain.md
 debug_*.html
+*.log
