@@ -71,3 +71,6 @@ Thumbs.db
 code_explain.md
 debug_*.html
 *.log
+*__pycache__*
+*db
+debug_*.html

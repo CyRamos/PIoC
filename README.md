@@ -6,7 +6,7 @@
 
 ```bash
 # 1. Clone and enter directory
-git clone <your-repo-url>
+git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # 2. Setup (first time only)
