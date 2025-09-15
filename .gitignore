@@ -1,5 +1,5 @@
 # Python
-__pycache__/
+/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -71,6 +71,5 @@ Thumbs.db
 code_explain.md
 debug_*.html
 *.log
-*__pycache__*
-*db
+*.db
 debug_*.html
