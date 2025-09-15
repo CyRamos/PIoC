@@ -8,7 +8,7 @@ This guide is for developers who want to contribute to or modify the PIoC platfo
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # Create virtual environment

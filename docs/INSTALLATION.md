@@ -14,7 +14,7 @@ This guide will help you install and run the PIoC (Pretty IoC) Cyber Threat Inte
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # Install dependencies
@@ -28,7 +28,7 @@ python launcher.py
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # Create virtual environment (recommended)
@@ -51,7 +51,7 @@ python launcher.py
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # Install pip-tools

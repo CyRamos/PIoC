@@ -7,7 +7,7 @@ A comprehensive platform for managing and analyzing Cyber Threat Intelligence (C
 ### 1. Installation
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # Run setup (installs dependencies and configures environment)
