@@ -20,6 +20,13 @@ wheels/
 .installed.cfg
 *.egg
 
+# Virtual environments (Windows & Unix)
+Lib/
+pyvenv.cfg
+pip-selfcheck.json
+Include/
+# Note: Scripts/ folder contains project scripts, not venv scripts
+
 # Virtual environments
 .env
 .venv
@@ -68,9 +75,17 @@ Thumbs.db
 .env.local
 .env.production
 
-# Development
+# Development & Logs
 code_explain.md
 debug_*.html
 *.log
 *.db
-debug_*.html
+cti_application.log
+audit.log
+
+# Temporary & Cache files
+*.tmp
+*.cache
+.pytest_cache/
+.coverage
+htmlcov/
