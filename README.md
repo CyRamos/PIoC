@@ -76,6 +76,18 @@ A comprehensive **Cyber Threat Intelligence (CTI)** platform featuring:
 - 📤 **Import/Export** - Bulk operations
 - 🔒 **Security** - Authentication & validation
 
+## 🗃️ Database
+
+PIoC uses **SQLite** as its default database engine for simplicity and portability:
+
+- **Database Type**: SQLite (file-based, serverless)
+- **Location**: `cti_database.db` (auto-created on first run)
+- **Schema**: Automatically initialized with tables for indicators, health checks, audit logs, and tags
+- **Fresh Install**: Each fresh clone gets a clean database - no existing data is included
+- **Migration**: Database schema is created automatically during first setup
+
+The application will create a new, empty database file on first run, ensuring each installation starts with a clean slate.
+
 ## 📄 License
 
 See [LICENSE](LICENSE) for details.
