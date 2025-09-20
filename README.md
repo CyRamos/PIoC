@@ -81,10 +81,35 @@ A comprehensive **Cyber Threat Intelligence (CTI)** platform featuring:
 PIoC uses **SQLite** as its default database engine for simplicity and portability:
 
 - **Database Type**: SQLite (file-based, serverless)
-- **Location**: `cti_database.db` (auto-created on first run)
+- **Default Location**: `cti_database.db` (auto-created on first run)
 - **Schema**: Automatically initialized with tables for indicators, health checks, audit logs, and tags
 - **Fresh Install**: Each fresh clone gets a clean database - no existing data is included
 - **Migration**: Database schema is created automatically during first setup
+
+### 🔧 Custom Database Configuration
+
+PIoC supports connecting to external databases (network shares, remote servers):
+
+- **Supported Types**: SQLite, PostgreSQL, MySQL, MariaDB
+- **Network Support**: Connect to databases on network shares or remote servers
+- **Configuration**: Use the Settings page in the GUI to configure custom database URLs
+- **Connectivity Testing**: Built-in connectivity testing with real-time status
+- **Security**: Passwords are masked in the UI for security
+
+**Example Database URLs:**
+```bash
+# Local SQLite
+sqlite:///C:/path/to/database.db
+
+# Network Share SQLite  
+sqlite:////network/share/database.db
+
+# PostgreSQL
+postgresql://user:password@server:5432/database
+
+# MySQL
+mysql://user:password@server:3306/database
+```
 
 The application will create a new, empty database file on first run, ensuring each installation starts with a clean slate.
 

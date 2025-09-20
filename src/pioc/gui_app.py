@@ -27,6 +27,7 @@ from src.pioc.indicator_processor import IndicatorProcessor
 from src.pioc.health_checker import HealthCheckManager
 from src.pioc.utils import security_validator, audit_logger, data_retention_manager, ConfigValidator
 from src.pioc.auth import auth_manager
+from src.pioc.db_utils import DatabaseConnectivityTester, DatabaseConfigManager, get_database_info_summary
 
 # Configure page
 st.set_page_config(
@@ -1556,6 +1557,9 @@ class CTIStreamlitApp:
         st.title("⚙️ Settings")
         st.markdown("Configure system settings and security options")
         
+        # Database Configuration
+        self._render_database_settings()
+        
         # Security settings
         st.subheader("🔒 Security Settings")
         
@@ -1608,6 +1612,201 @@ class CTIStreamlitApp:
         
         for key, value in info_data.items():
             st.write(f"**{key}:** {value}")
+    
+    def _render_database_settings(self):
+        """Render database configuration settings."""
+        st.subheader("🗄️ Database Configuration")
+        st.markdown("Configure database connection and view connectivity status")
+        
+        # Get current database info
+        current_db_url = DatabaseConfigManager.get_effective_database_url()
+        db_info = get_database_info_summary(current_db_url)
+        
+        # Database status display
+        col1, col2 = st.columns([2, 1])
+        
+        with col1:
+            st.write("**Current Database:**")
+            if db_info["is_custom"]:
+                st.info("🔧 Using custom database configuration")
+            else:
+                st.info("📁 Using default database configuration")
+            
+            # Show database URL (masked for security)
+            masked_url = self._mask_sensitive_url(current_db_url)
+            st.code(masked_url)
+        
+        with col2:
+            # Connectivity status
+            connectivity = db_info["connectivity"]
+            if connectivity["connected"]:
+                st.success("✅ Connected")
+                st.metric("Response Time", f"{connectivity['response_time_ms']} ms")
+            else:
+                st.error("❌ Disconnected")
+                if connectivity["error"]:
+                    st.caption(f"Error: {connectivity['error'][:100]}...")
+        
+        # Database details
+        if connectivity["connected"] and connectivity["details"]:
+            st.write("**Database Details:**")
+            details_col1, details_col2 = st.columns(2)
+            
+            with details_col1:
+                st.write(f"Type: {connectivity['database_type']}")
+                if "version" in connectivity["details"]:
+                    st.write(f"Version: {connectivity['details']['version']}")
+                if "table_count" in connectivity["details"]:
+                    st.write(f"Tables: {connectivity['details']['table_count']}")
+            
+            with details_col2:
+                if "file_size_mb" in connectivity["details"]:
+                    st.write(f"Size: {connectivity['details']['file_size_mb']} MB")
+                if connectivity.get("database_file_exists") is not None:
+                    file_status = "Exists" if connectivity["database_file_exists"] else "Missing"
+                    st.write(f"File Status: {file_status}")
+        
+        st.markdown("---")
+        
+        # Custom database configuration
+        st.write("**Custom Database Configuration:**")
+        
+        # Test connectivity button
+        col1, col2, col3 = st.columns([1, 1, 1])
+        
+        with col1:
+            if st.button("🔄 Test Current Connection", key="test_current_db"):
+                with st.spinner("Testing connection..."):
+                    test_result = DatabaseConnectivityTester.test_connection(current_db_url)
+                    if test_result["connected"]:
+                        st.success(f"✅ Connection successful! ({test_result['response_time_ms']} ms)")
+                    else:
+                        st.error(f"❌ Connection failed: {test_result['error']}")
+        
+        # Custom database URL input
+        st.write("**Set Custom Database URL:**")
+        
+        # Load existing custom config for default value
+        custom_config = DatabaseConfigManager.load_custom_config()
+        default_custom_url = custom_config.get("custom_database_url", "") if custom_config else ""
+        default_description = custom_config.get("description", "") if custom_config else ""
+        
+        # Input form
+        with st.form("custom_db_form"):
+            custom_db_url = st.text_input(
+                "Database URL",
+                value=default_custom_url,
+                placeholder="sqlite:///path/to/your/database.db or postgresql://user:pass@host:port/dbname",
+                help="Enter the full database URL. Supports SQLite, PostgreSQL, MySQL, etc."
+            )
+            
+            description = st.text_input(
+                "Description (Optional)",
+                value=default_description,
+                placeholder="e.g., 'Production database on network share'"
+            )
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                test_and_save = st.form_submit_button("🧪 Test & Save", type="primary")
+            
+            with col2:
+                test_only = st.form_submit_button("🔍 Test Only")
+            
+            with col3:
+                reset_config = st.form_submit_button("🔄 Reset to Default")
+        
+        # Handle form submissions
+        if test_and_save or test_only:
+            if custom_db_url.strip():
+                # Validate URL format
+                is_valid, validation_error = DatabaseConnectivityTester.validate_database_url(custom_db_url)
+                
+                if not is_valid:
+                    st.error(f"❌ Invalid URL format: {validation_error}")
+                else:
+                    # Test connection
+                    with st.spinner("Testing custom database connection..."):
+                        test_result = DatabaseConnectivityTester.test_connection(custom_db_url)
+                    
+                    if test_result["connected"]:
+                        st.success(f"✅ Connection successful! ({test_result['response_time_ms']} ms)")
+                        st.write(f"Database Type: {test_result['database_type']}")
+                        
+                        if test_and_save:
+                            # Save configuration
+                            if DatabaseConfigManager.save_custom_config(custom_db_url, description):
+                                st.success("💾 Custom database configuration saved!")
+                                st.info("🔄 Please restart the application to use the new database configuration.")
+                            else:
+                                st.error("❌ Failed to save configuration")
+                    else:
+                        st.error(f"❌ Connection failed: {test_result['error']}")
+                        if test_and_save:
+                            st.warning("Configuration was not saved due to connection failure.")
+            else:
+                st.warning("Please enter a database URL")
+        
+        if reset_config:
+            if DatabaseConfigManager.delete_custom_config():
+                st.success("🔄 Reset to default database configuration!")
+                st.info("🔄 Please restart the application to use the default database.")
+            else:
+                st.error("❌ Failed to reset configuration")
+        
+        # Security warning
+        st.warning("⚠️ **Security Note:** Database URLs may contain sensitive credentials. "
+                  "Ensure your database is properly secured and accessible only to authorized users.")
+        
+        # Network database examples
+        with st.expander("📚 Database URL Examples"):
+            st.markdown("""
+            **SQLite (Local File):**
+            ```
+            sqlite:///C:/path/to/database.db
+            sqlite:////network/share/database.db
+            ```
+            
+            **PostgreSQL:**
+            ```
+            postgresql://username:password@hostname:5432/database_name
+            postgresql://user@server.company.com:5432/cti_db
+            ```
+            
+            **MySQL:**
+            ```
+            mysql://username:password@hostname:3306/database_name
+            mysql://user@db.company.com:3306/cti_database
+            ```
+            
+            **Network Share Examples:**
+            - Windows: `sqlite:///\\\\server\\share\\path\\database.db`
+            - Linux/Mac: `sqlite:////mnt/network/path/database.db`
+            """)
+    
+    def _mask_sensitive_url(self, url: str) -> str:
+        """Mask sensitive parts of database URL for display."""
+        if not url:
+            return url
+        
+        # For URLs with credentials, mask the password
+        if "://" in url and "@" in url:
+            parts = url.split("://")
+            if len(parts) == 2:
+                scheme = parts[0]
+                rest = parts[1]
+                
+                if "@" in rest:
+                    # Split into credentials and host parts
+                    cred_part, host_part = rest.rsplit("@", 1)
+                    
+                    if ":" in cred_part:
+                        user, password = cred_part.split(":", 1)
+                        masked_cred = f"{user}:{'*' * len(password)}"
+                        return f"{scheme}://{masked_cred}@{host_part}"
+        
+        return url
 
 # Main application entry point
 def main():

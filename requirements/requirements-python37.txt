@@ -1,0 +1,35 @@
+# PIoC Requirements for Python 3.7+
+# Compatible versions for older Python installations
+
+# Core web frameworks
+fastapi==0.68.2          # Last version supporting Python 3.7
+uvicorn[standard]==0.15.0
+streamlit==1.12.2        # Compatible with Python 3.7
+
+# Data processing
+pandas==1.3.5            # Last major version for Python 3.7
+numpy==1.21.6
+sqlalchemy==1.4.46
+
+# Security and validation
+pydantic==1.10.12        # Pydantic v1, compatible with Python 3.7
+cryptography==3.4.8
+bcrypt==3.2.2
+
+# HTTP and networking
+aiohttp==3.8.6
+aiofiles==0.8.0
+requests==2.28.2
+python-multipart==0.0.5
+
+# Utilities
+python-dotenv==0.19.2
+rich==12.6.0
+typer==0.6.1
+validators==0.18.2
+
+# DNS and networking
+dnspython==2.2.1
+
+# Visualization (older compatible versions)
+plotly==5.11.0

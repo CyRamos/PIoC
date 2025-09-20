@@ -1,0 +1,92 @@
+# Git and version control
+.git
+.gitignore
+.gitattributes
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.virtualenv
+Lib/
+Scripts/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Development and testing
+.pytest_cache/
+.coverage
+.nyc_output
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Documentation build
+docs/_build/
+.readthedocs.yml
+
+# Logs and databases (keep structure but not content)
+*.log
+*.sqlite
+*.db
+cti_database.db
+cti_application.log
+
+# Temporary files and uploads (keep structure but not content)
+temp/*
+uploads/*
+exports/*
+!temp/.gitkeep
+!uploads/.gitkeep
+!exports/.gitkeep
+
+# Sample and test data
+data/*.csv
+data/*.json
+!data/sample*.csv
+
+# Development files
+*.md
+!README.md
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Runtime files
+*.pid
+*.sock

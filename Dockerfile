@@ -1,0 +1,62 @@
+# PIoC - Pretty IoC Cyber Threat Intelligence Platform
+# Docker image for production deployment
+
+FROM python:3.11-slim
+
+# Set metadata
+LABEL maintainer="PIoC Team"
+LABEL description="Pretty IoC Cyber Threat Intelligence Platform"
+LABEL version="1.0.0"
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PATH="/app:$PATH"
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for security
+RUN useradd --create-home --shell /bin/bash pioc && \
+    chown -R pioc:pioc /app
+
+# Copy requirements first for better Docker layer caching
+COPY requirements/requirements.txt /app/requirements.txt
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . /app/
+
+# Create necessary directories
+RUN mkdir -p /app/data /app/exports /app/temp /app/uploads && \
+    chown -R pioc:pioc /app
+
+# Switch to non-root user
+USER pioc
+
+# Set default environment variables
+ENV CTI_REQUIRE_AUTH=true \
+    CTI_DEBUG=false \
+    CTI_LOG_LEVEL=INFO \
+    STREAMLIT_SERVER_PORT=8501 \
+    API_PORT=8000
+
+# Expose ports
+EXPOSE 8501 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Default command - run both GUI and API
+CMD ["python", "run.py", "--both"]

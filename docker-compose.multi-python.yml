@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Python 3.11 (Current/Recommended)
+  pioc-python311:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pioc-python311
+    ports:
+      - "8501:8501"  # Streamlit GUI
+      - "8000:8000"  # FastAPI backend
+    environment:
+      - CTI_REQUIRE_AUTH=true
+      - CTI_DEBUG=false
+      - CTI_LOG_LEVEL=INFO
+      - PYTHON_VERSION=3.11
+    volumes:
+      - pioc_data_311:/app/data
+      - pioc_exports_311:/app/exports
+      - pioc_uploads_311:/app/uploads
+    networks:
+      - pioc-network
+    restart: unless-stopped
+    profiles:
+      - python311
+      - latest
+
+  # Python 3.7 (Minimum supported)
+  pioc-python37:
+    build:
+      context: .
+      dockerfile: Dockerfile.python37
+    container_name: pioc-python37
+    ports:
+      - "8502:8501"  # Streamlit GUI (different port)
+      - "8001:8000"  # FastAPI backend (different port)
+    environment:
+      - CTI_REQUIRE_AUTH=true
+      - CTI_DEBUG=false
+      - CTI_LOG_LEVEL=INFO
+      - PYTHON_VERSION=3.7
+    volumes:
+      - pioc_data_37:/app/data
+      - pioc_exports_37:/app/exports
+      - pioc_uploads_37:/app/uploads
+    networks:
+      - pioc-network
+    restart: unless-stopped
+    profiles:
+      - python37
+      - legacy
+
+volumes:
+  # Python 3.11 volumes
+  pioc_data_311:
+    driver: local
+  pioc_exports_311:
+    driver: local
+  pioc_uploads_311:
+    driver: local
+    
+  # Python 3.7 volumes
+  pioc_data_37:
+    driver: local
+  pioc_exports_37:
+    driver: local
+  pioc_uploads_37:
+    driver: local
+
+networks:
+  pioc-network:
+    driver: bridge

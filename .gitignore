@@ -82,6 +82,7 @@ debug_*.html
 *.db
 cti_application.log
 audit.log
+db_config.json
 
 # Temporary & Cache files
 *.tmp

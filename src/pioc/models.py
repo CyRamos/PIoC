@@ -232,8 +232,16 @@ class HealthCheckResponse(BaseModel):
 # Database setup
 def create_database_engine():
     """Create database engine with proper configuration."""
+    # Check for custom database configuration
+    try:
+        from src.pioc.db_utils import DatabaseConfigManager
+        effective_url = DatabaseConfigManager.get_effective_database_url()
+    except ImportError:
+        # Fallback if db_utils is not available
+        effective_url = db_config.DATABASE_URL
+    
     return create_engine(
-        db_config.DATABASE_URL,
+        effective_url,
         echo=db_config.DATABASE_ECHO,
         pool_size=db_config.CONNECTION_POOL_SIZE,
         max_overflow=db_config.CONNECTION_POOL_OVERFLOW,
