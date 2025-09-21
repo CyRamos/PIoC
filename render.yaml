@@ -1,0 +1,26 @@
+# Render Blueprint for PIoC Platform
+# This file ensures proper Python version and deployment configuration
+
+services:
+  - type: web
+    name: PIoC-Platform
+    runtime: python
+    plan: starter
+    region: frankfurt
+    branch: main
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install -r requirements/requirements.txt
+    startCommand: python run.py --both
+    envVars:
+      - key: PORT
+        sync: false
+      - key: CTI_REQUIRE_AUTH
+        value: "true"
+      - key: CTI_DEBUG
+        value: "false"
+      - key: CTI_LOG_LEVEL
+        value: "INFO"
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+    autoDeploy: true
