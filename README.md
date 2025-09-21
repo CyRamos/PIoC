@@ -1,6 +1,8 @@
 # 🛡️ PIoC - Pretty IoC Platform
 
-> **Cyber Threat Intelligence Platform with GUI and API**
+> **Advanced Cyber Threat Intelligence Platform for IOC Management, Defanging, and Analysis**
+
+PIoC is a comprehensive security platform designed to collect, process, defang, and analyze Indicators of Compromise (IOCs). It automatically handles duplicate detection, threat intelligence correlation, and provides both web-based GUI and REST API interfaces for seamless integration into security workflows.
 
 ## 🚀 Quick Start
 
@@ -18,9 +20,10 @@ python run.py
 
 ## 📖 Documentation
 
-- **[📋 Full README](docs/README.md)** - Complete documentation
+- **[📋 Full Documentation](docs/FULL_README.md)** - Complete setup guide with Docker support
 - **[⚡ Quick Start](docs/QUICKSTART.md)** - Fast setup guide  
-- **[🔧 Installation](docs/INSTALLATION.md)** - Detailed setup
+- **[🔧 Installation](docs/INSTALLATION.md)** - Detailed setup instructions
+- **[🐍 Python Compatibility](docs/PYTHON_COMPATIBILITY.md)** - Python version support
 - **[🛠️ Development](docs/DEVELOPMENT.md)** - For contributors
 
 ## 🎯 Entry Points
@@ -71,10 +74,14 @@ A comprehensive **Cyber Threat Intelligence (CTI)** platform featuring:
 
 - 🌐 **Web GUI** (Streamlit) - User-friendly interface
 - ⚡ **REST API** (FastAPI) - Programmatic access  
-- 📊 **Indicator Management** - IOCs, IPs, URLs, hashes
-- 🔍 **Search & Analytics** - Advanced filtering
-- 📤 **Import/Export** - Bulk operations
-- 🔒 **Security** - Authentication & validation
+- 📊 **Indicator Management** - IOCs, IPs, URLs, hashes, domains
+- 🛡️ **IOC Defanging** - Automatically defangs malicious indicators for safe handling
+- 🔄 **Duplicate Detection** - Intelligent deduplication and merging of indicators
+- 💾 **Data Storage** - Persistent storage with SQLite/PostgreSQL support
+- 🔍 **Search & Analytics** - Advanced filtering and threat correlation
+- 📤 **Import/Export** - Bulk operations with multiple formats (CSV, JSON, STIX)
+- 🔒 **Security** - Authentication, validation, and audit logging
+- 🏷️ **Tagging System** - Organize indicators with custom tags and categories
 
 ## 🗃️ Database
 
