@@ -1,0 +1,35 @@
+# PIoC Requirements for Python 3.13+
+# Updated versions compatible with Python 3.13
+
+# Core web frameworks
+fastapi==0.115.0         # Latest version with Python 3.13 support
+uvicorn[standard]==0.30.6
+streamlit==1.38.0        # Latest version with Python 3.13 support
+
+# Data processing - use latest versions for Python 3.13
+pandas==2.2.2            # Latest version with Python 3.13 support
+numpy==2.1.1             # Latest version with Python 3.13 support
+sqlalchemy==2.0.35
+
+# Security and validation
+pydantic==2.9.2          # Latest Pydantic v2
+cryptography==43.0.1
+bcrypt==4.2.0
+
+# HTTP and networking
+aiohttp==3.10.5
+aiofiles==24.1.0
+requests==2.32.3
+python-multipart==0.0.9
+
+# Utilities
+python-dotenv==1.0.1
+rich==13.8.1
+typer==0.12.5
+validators==0.34.0
+
+# DNS and networking
+dnspython==2.6.1
+
+# Visualization
+plotly==5.24.1
