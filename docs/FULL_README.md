@@ -14,10 +14,10 @@ git clone https://github.com/CyRamos/PIoC
 cd PIoC
 
 # Run with Docker Compose (recommended)
-docker-compose up -d
+docker-compose -f docker/docker-compose.yml up -d
 
 # OR build and run manually
-docker build -t pioc-platform .
+docker build -f docker/Dockerfile -t pioc-platform .
 docker run -d -p 8501:8501 -p 8000:8000 --name pioc pioc-platform
 ```
 
@@ -144,27 +144,27 @@ The `docker-compose.yml` file provides a complete deployment setup:
 
 ```bash
 # Start the platform
-docker-compose up -d
+docker-compose -f docker/docker-compose.yml up -d
 
 # View logs
-docker-compose logs -f
+docker-compose -f docker/docker-compose.yml logs -f
 
 # Stop the platform
-docker-compose down
+docker-compose -f docker/docker-compose.yml down
 
 # Update and restart
-docker-compose pull
-docker-compose up -d --force-recreate
+docker-compose -f docker/docker-compose.yml pull
+docker-compose -f docker/docker-compose.yml up -d --force-recreate
 ```
 
 ### Docker Commands
 
 ```bash
 # Build the image (Python 3.11 - recommended)
-docker build -t pioc-platform .
+docker build -f docker/Dockerfile -t pioc-platform .
 
 # Build for Python 3.7 (legacy support)
-docker build -f Dockerfile.python37 -t pioc-platform-py37 .
+docker build -f docker/Dockerfile.python37 -t pioc-platform-py37 .
 
 # Run container with custom settings
 docker run -d \
@@ -189,11 +189,11 @@ For different Python versions:
 
 ```bash
 # Python 3.11 (recommended)
-docker-compose --profile python311 up -d
+docker-compose --profile python311 -f docker/docker-compose.multi-python.yml up -d
 # Access: GUI http://localhost:8501, API http://localhost:8000
 
 # Python 3.7 (legacy support)
-docker-compose --profile python37 -f docker-compose.multi-python.yml up -d
+docker-compose --profile python37 -f docker/docker-compose.multi-python.yml up -d
 # Access: GUI http://localhost:8502, API http://localhost:8001
 ```
 
@@ -211,11 +211,11 @@ To verify your Docker installation works correctly:
 
 ```bash
 # Linux/macOS
-chmod +x test-docker.sh
-./test-docker.sh
+chmod +x docker/test-docker.sh
+./docker/test-docker.sh
 
 # Windows
-test-docker.bat
+docker/test-docker.bat
 ```
 
 The test script will:

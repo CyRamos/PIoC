@@ -4,8 +4,8 @@ services:
   # Python 3.11 (Current/Recommended)
   pioc-python311:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: pioc-python311
     ports:
       - "8501:8501"  # Streamlit GUI
@@ -29,8 +29,8 @@ services:
   # Python 3.7 (Minimum supported)
   pioc-python37:
     build:
-      context: .
-      dockerfile: Dockerfile.python37
+      context: ..
+      dockerfile: docker/Dockerfile.python37
     container_name: pioc-python37
     ports:
       - "8502:8501"  # Streamlit GUI (different port)

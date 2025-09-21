@@ -46,12 +46,14 @@ PIoC/
 ├── core/               # Configuration
 ├── requirements/       # Dependencies
 ├── scripts/           # Setup utilities
+├── docker/            # 🐳 Docker files and configs
 ├── docs/              # Documentation
 └── data/              # Sample data
 ```
 
 ## ⚡ Quick Commands
 
+### 🐍 Local Python
 ```bash
 # First time setup
 python run.py --setup
@@ -67,6 +69,29 @@ python run.py --both    # Both services
 # Validate everything works
 python run.py --validate
 ```
+
+### 🐳 Docker Operations
+```bash
+# Quick start with Docker Compose (recommended)
+docker-compose -f docker/docker-compose.yml up -d
+
+# Build and run manually
+docker build -f docker/Dockerfile -t pioc-platform .
+docker run -d -p 8501:8501 -p 8000:8000 --name pioc pioc-platform
+
+# Test Docker setup
+docker/test-docker.bat        # Windows
+./docker/test-docker.sh       # Linux/macOS
+
+# Stop and cleanup
+docker-compose -f docker/docker-compose.yml down
+docker stop pioc && docker rm pioc
+```
+
+**Access Points:**
+- 🌐 **GUI**: http://localhost:8501
+- ⚡ **API**: http://localhost:8000
+- 📚 **API Docs**: http://localhost:8000/docs
 
 ## 🔍 What's PIoC?
 

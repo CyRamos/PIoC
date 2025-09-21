@@ -3,8 +3,8 @@ version: '3.8'
 services:
   pioc:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: pioc-platform
     ports:
       - "8501:8501"  # Streamlit GUI
