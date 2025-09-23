@@ -1030,7 +1030,7 @@ async def custom_swagger_ui():
                 
                 if (value && value.trim() !== '' && paramName) {
                     // Extract actual parameter name from placeholder or nearby label
-                    let cleanParamName = paramName.replace(/\s*\*?\s*$/, ''); // Remove asterisks
+                    let cleanParamName = paramName.replace(/\\s*\\*?\\s*$/, ''); // Remove asterisks
                     const label = input.closest('tr')?.querySelector('td:first-child .parameter__name');
                     if (label) {
                         cleanParamName = label.textContent.trim();

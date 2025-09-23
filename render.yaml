@@ -11,7 +11,7 @@ services:
     buildCommand: |
       python -m pip install --upgrade pip
       pip install -r requirements/requirements.txt
-    startCommand: python run.py --both
+    startCommand: python run.py --gui
     envVars:
       - key: PORT
         sync: false
@@ -23,4 +23,6 @@ services:
         value: "INFO"
       - key: PYTHON_VERSION
         value: "3.11.9"
+      - key: RENDER_DEPLOYMENT
+        value: "true"
     autoDeploy: true

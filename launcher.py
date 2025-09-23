@@ -102,6 +102,12 @@ def launch_gui(port: int = 8501, disable_auth: bool = False):
 
     Uses the preferred Python interpreter (local ``.venv`` when available).
     """
+    # Check for Render environment PORT
+    render_port = os.environ.get('PORT')
+    if render_port:
+        port = int(render_port)
+        print(f"🔧 Using Render PORT environment variable: {port}")
+    
     print(f"🚀 Starting CTI GUI on port {port}...")
     
     # Setup environment
@@ -109,14 +115,23 @@ def launch_gui(port: int = 8501, disable_auth: bool = False):
     
     try:
         py_exec = get_python_executable()
+        
+        # Determine host based on environment
+        host = "0.0.0.0" if os.environ.get('PORT') else "127.0.0.1"
+        
         cmd = [
             py_exec, "-m", "streamlit", "run", "src/pioc/gui_app.py",
             "--server.port", str(port),
+            "--server.address", host,
             "--server.headless", "true",
             "--browser.gatherUsageStats", "false"
         ]
         
-        print(f"📱 GUI will be available at: http://localhost:{port}")
+        if os.environ.get('PORT'):
+            print(f"📱 GUI will be available at: https://pioc-platform.onrender.com")
+        else:
+            print(f"📱 GUI will be available at: http://localhost:{port}")
+        
         if not disable_auth:
             print("🔐 Authentication required - you'll need to enter your email")
         else:
@@ -131,6 +146,12 @@ def launch_gui(port: int = 8501, disable_auth: bool = False):
 
 def launch_api(port: int = 8000):
     """Launch the FastAPI server on the given ``port`` using Uvicorn."""
+    # Check for Render environment PORT
+    render_port = os.environ.get('PORT')
+    if render_port:
+        port = int(render_port)
+        print(f"🔧 Using Render PORT environment variable: {port}")
+    
     print(f"🚀 Starting CTI API on port {port}...")
     
     try:
@@ -155,6 +176,16 @@ def launch_api(port: int = 8000):
 def launch_both(gui_port: int = 8501, api_port: int = 8000, disable_auth: bool = False):
     """Launch GUI and API concurrently in background threads."""
     print("🚀 Starting both GUI and API...")
+    
+    # Check if we're in a Render environment (PORT env var exists)
+    render_port = os.environ.get('PORT')
+    if render_port:
+        # In Render environment, use the PORT for API and disable GUI for now
+        api_port = int(render_port)
+        print(f"🔧 Render environment detected - using PORT {api_port} for API")
+        # For Render deployment, we'll only run the API
+        launch_api(api_port)
+        return
     
     # Setup environment
     setup_environment(disable_auth)

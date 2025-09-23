@@ -72,12 +72,12 @@ class ApplicationConfig:
     EXPORT_DIR: Path = Path("exports")
     
     # API configuration
-    API_HOST: str = os.getenv("API_HOST", "127.0.0.1")
-    API_PORT: int = int(os.getenv("API_PORT", "8000"))
+    API_HOST: str = os.getenv("API_HOST", "0.0.0.0" if os.getenv("PORT") else "127.0.0.1")
+    API_PORT: int = int(os.getenv("PORT", os.getenv("API_PORT", "8000")))
     
     # GUI configuration
-    GUI_HOST: str = os.getenv("GUI_HOST", "127.0.0.1")
-    GUI_PORT: int = int(os.getenv("GUI_PORT", "8501"))
+    GUI_HOST: str = os.getenv("GUI_HOST", "0.0.0.0" if os.getenv("PORT") else "127.0.0.1")
+    GUI_PORT: int = int(os.getenv("PORT", os.getenv("GUI_PORT", "8501")))
     
     def __init__(self):
         """Initialize application configuration and create necessary directories."""
