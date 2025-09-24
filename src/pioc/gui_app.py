@@ -191,8 +191,16 @@ class CTIStreamlitApp:
 
     def render_dashboard(self):
         """Render the main dashboard."""
-        st.title("🛡️ CTI Dashboard")
-        st.markdown("Welcome to the Cyber Threat Intelligence Platform")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("🛡️ CTI Dashboard")
+            st.markdown("Welcome to the Cyber Threat Intelligence Platform")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         
         # Key metrics
         col1, col2, col3, col4 = st.columns(4)
@@ -340,8 +348,16 @@ class CTIStreamlitApp:
 
     def render_file_upload(self):
         """Render enhanced file upload interface with drag and drop."""
-        st.title("📁 File Upload & Processing")
-        st.markdown("Upload threat intelligence files for processing and normalization")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("📁 File Upload & Processing")
+            st.markdown("Upload threat intelligence files for processing and normalization")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         
         # Simple header message without the styled box
         st.info("💡 **Drag & Drop Support**: You can drag files directly onto the file selector below or click to browse.")
@@ -801,8 +817,16 @@ class CTIStreamlitApp:
     
     def render_diff_analysis(self):
         """Render a simplified diff analysis page."""
-        st.title("🔍 Diff Analysis & Export")
-        st.markdown("Compare and export indicators from your uploaded files")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("🔍 Diff Analysis & Export")
+            st.markdown("Compare and export indicators from your uploaded files")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         
         # Source selection
         st.subheader("📋 Source Selection")
@@ -1131,7 +1155,15 @@ class CTIStreamlitApp:
 
     def render_indicator_management(self):
         """Render indicator management interface."""
-        st.title("🔍 Indicator Management")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("🔍 Indicator Management")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         
         # Search and filter options
         col1, col2, col3 = st.columns(3)
@@ -1275,7 +1307,15 @@ class CTIStreamlitApp:
 
     def render_health_checks(self):
         """Render health checks interface."""
-        st.title("🔍 Health Checks")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("🔍 Health Checks")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         st.markdown("Monitor and manage indicator health checks")
         
         # Health check statistics
@@ -1349,7 +1389,15 @@ class CTIStreamlitApp:
 
     def render_analytics(self):
         """Render analytics dashboard."""
-        st.title("📊 Analytics")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("📊 Analytics")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         st.markdown("Analyze trends and patterns in threat intelligence data")
         
         # Time range selector
@@ -1510,7 +1558,15 @@ class CTIStreamlitApp:
 
     def render_audit_logs(self):
         """Render audit logs interface."""
-        st.title("📋 Audit Logs")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("📋 Audit Logs")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         st.markdown("View system activity and user actions")
         
         # Filters
@@ -1561,7 +1617,15 @@ class CTIStreamlitApp:
 
     def render_settings(self):
         """Render settings interface."""
-        st.title("⚙️ Settings")
+        # Header with sidebar toggle
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            st.title("⚙️ Settings")
+        with col2:
+            if st.button("📋 **Menu**", help="Open/Close Sidebar Menu", use_container_width=True):
+                # Toggle sidebar state
+                st.session_state.sidebar_toggle = not st.session_state.get('sidebar_toggle', False)
+                st.rerun()
         st.markdown("Configure system settings and security options")
         
         # Database Configuration
