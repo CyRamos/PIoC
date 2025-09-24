@@ -37,30 +37,23 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS for sidebar behavior - responsive design
+# CSS for better mobile experience
 st.markdown("""
 <style>
-    /* Hide the sidebar collapse button only on desktop (not mobile) */
-    @media (min-width: 768px) {
-        [data-testid="collapsedControl"] {
-            display: none !important;
-        }
-        
-        /* Ensure sidebar stays expanded on desktop */
-        [data-testid="stSidebar"] {
-            min-width: 21rem !important;
-        }
+    /* Ensure sidebar is responsive and functional on all devices */
+    [data-testid="stSidebar"] {
+        min-width: 18rem !important;
     }
     
-    /* On mobile, ensure the hamburger menu is visible and functional */
+    /* Make sure the collapse button is always visible and functional */
+    [data-testid="collapsedControl"] {
+        display: block !important;
+    }
+    
+    /* Improve mobile experience */
     @media (max-width: 767px) {
-        [data-testid="collapsedControl"] {
-            display: block !important;
-        }
-        
-        /* Allow sidebar to be collapsible on mobile */
         [data-testid="stSidebar"] {
-            min-width: auto !important;
+            min-width: 16rem !important;
         }
     }
 </style>

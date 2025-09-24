@@ -225,7 +225,7 @@ class AuthManager:
         """Create a demo session for immediate access."""
         # Create a demo user session
         user_info = {
-            'email': 'demo@prettyioc.com',
+            'email': 'demo@cyterous.com',
             'is_admin': False,
             'login_time': datetime.now(),
             'user_id': 'demo_user'
