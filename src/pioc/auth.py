@@ -187,56 +187,68 @@ class AuthManager:
         return hashlib.sha256(email.encode()).hexdigest()[:16]
     
     def render_login_form(self):
-        """Render the login form."""
+        """Render the landing page."""
         st.title("✨ Pretty IoC")
-        st.markdown("**PloC Login** - Please authenticate to access the Platform")
+        st.markdown("**Welcome to the CTI Platform** - Your comprehensive threat intelligence solution")
         
-        # Integration notice
-        if auth_config.CYTEROUS_API_KEY:
-            st.info("🔗 Integrated with cyterous.com authentication")
+        # Main content area
+        st.markdown("""
+        ### 🛡️ **What is Pretty IoC?**
         
-        with st.form("login_form"):
-            st.subheader("Email Authentication")
-            
-            email = st.text_input(
-                "Email Address",
-                placeholder="your.email@cyterous.com",
-                help="Enter your email address to authenticate"
-            )
-            
-            remember_me = st.checkbox(
-                "Remember me for 30 days",
-                help="Keep you logged in for extended period"
-            )
-            
-            submitted = st.form_submit_button("🔐 Login", type="primary")
-            
-            if submitted and email:
-                if self.login_with_email(email):
-                    st.success("✅ Authentication successful!")
-                    st.rerun()
+        Pretty IoC is a comprehensive Cyber Threat Intelligence (CTI) platform designed to help security teams:
         
-        # Additional information
-        st.markdown("---")
-        st.subheader("ℹ️ Authentication Information")
+        - **📁 Process** threat intelligence files from multiple sources
+        - **🔍 Analyze** indicators of compromise (IOCs) with advanced diff analysis
+        - **🏥 Validate** indicators against threat intelligence sources
+        - **📊 Visualize** trends and patterns in your threat data
+        - **🔒 Manage** indicators with proper TLP classification
         
-        col1, col2 = st.columns(2)
+        ### 🚀 **Get Started**
         
-        with col1:
-            st.write("**Allowed Domains:**")
-            for domain in auth_config.ALLOWED_DOMAINS:
-                st.write(f"• {domain}")
+        Click the button below to begin using the platform and access all features.
+        """)
         
+        # Start Here button
+        col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
-            st.write("**Features:**")
-            st.write("• Secure email-based authentication")
-            st.write("• Integration with cyterous.com")
-            st.write("• Session management")
-            st.write("• Audit logging")
+            if st.button("🚀 **Start Here**", type="primary", use_container_width=True):
+                # Create a demo session for immediate access
+                self.create_demo_session()
+                st.success("✅ Welcome! You're now ready to explore the platform.")
+                st.rerun()
         
         # Contact information
         st.markdown("---")
         st.info("💬 Need access? Contact your administrator or visit [cyterous.com](https://cyterous.com)")
+    
+    def create_demo_session(self):
+        """Create a demo session for immediate access."""
+        # Create a demo user session
+        user_info = {
+            'email': 'demo@prettyioc.com',
+            'is_admin': False,
+            'login_time': datetime.now(),
+            'user_id': 'demo_user'
+        }
+        
+        session_data = {
+            'authenticated': True,
+            'expires_at': datetime.now() + timedelta(hours=8),  # 8 hour demo session
+            'user_id': 'demo_user'
+        }
+        
+        # Store in session state
+        st.session_state[self.session_key] = session_data
+        st.session_state[self.user_key] = user_info
+        st.session_state['user_id'] = 'demo_user'
+        
+        # Log demo session creation
+        audit_logger.log_event(
+            user_id='demo_user',
+            action="demo_session_created",
+            resource_type="auth",
+            details={'session_type': 'demo', 'created_at': datetime.now().isoformat()}
+        )
 
 class AuthDecorator:
     """Decorator for protecting Streamlit pages."""
