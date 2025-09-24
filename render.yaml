@@ -11,10 +11,12 @@ services:
     buildCommand: |
       python -m pip install --upgrade pip
       pip install -r requirements/requirements.txt
-    startCommand: python run.py --gui
+    startCommand: python -m streamlit run src/pioc/gui_app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true --browser.gatherUsageStats false
     envVars:
       - key: PORT
         sync: false
+      - key: PYTHONPATH
+        value: "."
       - key: CTI_REQUIRE_AUTH
         value: "true"
       - key: CTI_DEBUG
@@ -22,7 +24,7 @@ services:
       - key: CTI_LOG_LEVEL
         value: "INFO"
       - key: PYTHON_VERSION
-        value: "3.11.9"
+        value: "3.11"
       - key: RENDER_DEPLOYMENT
         value: "true"
     autoDeploy: true
