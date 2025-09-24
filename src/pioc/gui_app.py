@@ -37,17 +37,31 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Simple CSS to prevent sidebar collapse without changing colors
+# CSS for sidebar behavior - responsive design
 st.markdown("""
 <style>
-    /* Hide the sidebar collapse button only */
-    [data-testid="collapsedControl"] {
-        display: none !important;
+    /* Hide the sidebar collapse button only on desktop (not mobile) */
+    @media (min-width: 768px) {
+        [data-testid="collapsedControl"] {
+            display: none !important;
+        }
+        
+        /* Ensure sidebar stays expanded on desktop */
+        [data-testid="stSidebar"] {
+            min-width: 21rem !important;
+        }
     }
     
-    /* Ensure sidebar stays expanded */
-    [data-testid="stSidebar"] {
-        min-width: 21rem !important;
+    /* On mobile, ensure the hamburger menu is visible and functional */
+    @media (max-width: 767px) {
+        [data-testid="collapsedControl"] {
+            display: block !important;
+        }
+        
+        /* Allow sidebar to be collapsible on mobile */
+        [data-testid="stSidebar"] {
+            min-width: auto !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
